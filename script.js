@@ -14,14 +14,38 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 //Starting conditions: sets the content of the scores to 0
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEl.classList.add('hidden');
+//to tell the status about if the game is being played or not
 
-const scores = [0, 0];
-let currScore = 0;
-let activePlayer = 0;
-let playing = true; //to tell the status about if the game is being played or not
+let scores, currScore, activePlayer, playing;
+
+const init = function () {
+  scores = [0, 0];
+  currScore = 0;
+  activePlayer = 0;
+  playing = true;
+
+  scores[0] = 0;
+  scores[1] = 0;
+  currScore = 0;
+  activePlayer = 0;
+
+  // 1. Remove the winner desing and hide the dice
+  diceEl.classList.add('hidden');
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  // 2. Add the active player desing to player 0
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+
+  //set all the parameters to zero
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  curr0El.textContent = 0;
+  curr1E1.textContent = 0;
+};
+
+// Run init()
+init();
 
 const switchPlayer = function () {
   document.getElementById('current--' + activePlayer).textContent = 0;
@@ -72,24 +96,4 @@ btnHold.addEventListener('click', function () {
   }
 });
 
-btnNew.addEventListener('click', function () {
-  if (!playing) playing = true;
-
-  scores[0] = 0;
-  scores[1] = 0;
-  currScore = 0;
-  if (!diceEl.classList.contains('hidden')) {
-    diceEl.classList.add('hidden');
-  }
-  // 1. Remove the winner desing
-  document.querySelector(`.player--${activePlayer}`).classList.remove(`player--winner`);
-  // 2. Add the active player desing to player 0
-  activePlayer = 0;
-  document.querySelector(`.player--${activePlayer}`).classList.add(`player--active`);
-
-  //set all the parameters to zero
-  score0El.textContent = 0;
-  score1El.textContent = 0;
-  curr0El.textContent = 0;
-  curr1E1.textContent = 0;
-});
+btnNew.addEventListener('click', init);
